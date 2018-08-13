@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: node.Dockerfile
+    volumes:
+      - ./src:/code
+      - /code/node_modules
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST=redis
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

@@ -1,3 +1,3 @@
-#create .env file extending .env.dist
+# create .env file extending .env.dist
 
 # docker-compose up --build

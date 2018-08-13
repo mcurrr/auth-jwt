@@ -8,7 +8,7 @@ const schema = Joi.object().keys({
     .required(),
 
   password: Joi.string()
-    .min(8)
+    .min(7)
     .max(64)
     .required(),
 })

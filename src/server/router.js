@@ -2,8 +2,11 @@ const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const User = require('./user');
 const Token = require('./token');
+const fs = require('fs');
+const path = require('path');
 
 const router = new Router();
+const htmlPath = path.join(__dirname, '..', 'build', 'index.html');
 
 router.post('/', bodyParser(), async ctx => {
   ctx.status = 401;
@@ -22,7 +25,14 @@ router.get('/', async ctx => {
   ctx.status = 403;
 
   const { authorization } = ctx.headers;
-  if (!authorization || !authorization.match(/^Bearer\s/)) return;
+  if (!authorization || !authorization.match(/^Bearer\s/)) {
+    ctx.type = 'html';
+    ctx.body = fs.createReadStream(htmlPath);
+
+    console.warn(ctx);
+
+    return;
+  }
 
   const refreshToken = authorization.replace(/^Bearer\s/, '');
   const { username } = await Token.getPayload(refreshToken);

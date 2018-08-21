@@ -8,6 +8,7 @@ services:
     volumes:
       - ./src:/code
       - /code/node_modules
+      - /code/build
     env_file: .env
     environment:
       - NODE_ENV=production
